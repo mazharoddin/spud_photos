@@ -4,7 +4,7 @@ begin
     gem.name = "spud_photos"
     gem.summary = "Spud Photo Album Engine"
     gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*"]
-    gem.add_dependency 'spud_core', '>= 0.5.2'
+    gem.add_dependency 'spud_core'
     gem.authors = 'Greg Woods'
     gem.email = 'greg@westlakedesign.com'
 	end
