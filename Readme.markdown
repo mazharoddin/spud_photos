@@ -1,10 +1,8 @@
-Spud Blog
-========
+# Spud Photos
 
-Spud Photo Albums is an engine for creating and managing photo galleries, designed for use with [Spud][1].
+Spud Photos is an engine for creating and managing photo galleries, designed for use with [Spud][1].
 
-Installation/Usage
-------------------
+## Installation/Usage
 
 1. In your Gemfile add the following
 
@@ -20,13 +18,8 @@ Installation/Usage
 
 4. Run a rails server instance and point your browser to /spud/admin
 
-Configuration
--------------
+## Configuration
 
-Spud Blog current accepts the following configuration options.
-
-	Spud::Photos.configure do |config|
-	  config.base_layout = 'photos'
-	end
+_Coming soon..._
 
 [1]:https://github.com/davydotcom/spud_core_admin
