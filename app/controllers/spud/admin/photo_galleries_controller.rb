@@ -1,4 +1,4 @@
-class Spud::Admin::PhotoGalleriesController < ApplicationController
+class Spud::Admin::PhotoGalleriesController < Spud::Admin::ApplicationController
 
   before_filter :get_photo, :only => [:show, :edit, :update, :destroy]
 
