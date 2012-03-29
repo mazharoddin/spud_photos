@@ -1,9 +1,21 @@
+#spud_admin_photos_selected{
+  width: 520px;
+  margin-right: 18px;
+  float: left;
+}
+#spud_admin_photos_available{
+  width: 400px;
+  float: left;
+}
+#spud_admin_photos_selected h4, #spud_admin_photos_available h4{
+  font-weight: normal;
+  margin: 15px 0;
+}
 .spud_admin_photo_ui_thumbs{
   height: 350px;
-  padding: 10px 5px 0 5px;
-  border-top: 1px solid #cacaca;
-  border-bottom: 1px solid #cacaca;
-  margin: 20px 0;
+  padding: 0;
+  border: 1px solid #cacaca;
+  margin: 15px 0;
   overflow-y: scroll;
 }
 .spud_admin_photo_ui_thumb{
@@ -12,7 +24,7 @@
   float: left;
   background: #666;
   background-clip: content-box;
-  margin: -4px 31px 31px -4px;
+  margin: 16px;
   position: relative;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -20,22 +32,32 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  border: 4px solid white;
-  box-shadow: inset 0 0 50px rgba(0,0,0,0.25);
+  box-shadow: 0 0 5px black, inset 0 0 50px rgba(0,0,0,0.25);
   border-radius: 15px;
-  background-clip: content-box;
+  -webkit-transition-property: box-shadow;
+  -webkit-transition-duration: 0.2s;
+  -webkit-transition-timing-function: ease-out;
 }
-.spud_admin_photo_ui_thumb_selectable{
+.spud_admin_photo_ui_thumb_small{
+  width: 100px;
+  height: 100px;
+  margin: 12px;
+}
+.spud_admin_photo_ui_thumb:hover{
+  box-shadow: 0 0 5px black;
+}
+.spud_admin_photo_ui_thumbs_selectable .spud_admin_photo_ui_thumb{
   cursor: pointer;
 }
 .spud_admin_photo_ui_thumb_selected{
-  border-color: #006CCC;
+  border: 3px solid #006CCC;
+  margin: -3px 30px 30px -3px;
 }
-.spud_admin_photo_ui_thumb_draggable{
+.spud_admin_photo_ui_thumbs_sortable .spud_admin_photo_ui_thumb{
   cursor: move;
 }
-.spud_admin_photo_ui_thumb:nth-child(6n){
-  margin-right: 0;
+.spud_admin_photo_ui_thumb_selected:nth-child(6n){
+  margin-right: -3px;
 }
 .spud_admin_photo_ui_thumb h4{
   font-size: 12px;
@@ -61,4 +83,21 @@
   padding: 4px;
   display: inline-block;
   background: rgba(0,0,0,0.5);
+  border-bottom-right-radius: 15px;
+}
+.spud_admin_photos_btn_delete{
+  background: url('/assets/spud/photos/buttons/x_16x16.png');
+  height: 16px;
+  width: 16px;
+  text-indent: -7777px;
+  display: inline-block;
+  margin: 0 4px;
+}
+.spud_admin_photos_btn_edit{
+  background: url('/assets/spud/photos/buttons/cog_16x16.png');
+  height: 16px;
+  width: 16px;
+  text-indent: -7777px;
+  display: inline-block;
+  margin: 0 4px;
 }

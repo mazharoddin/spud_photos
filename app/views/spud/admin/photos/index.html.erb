@@ -1,17 +1,10 @@
 <%= content_for :data_controls do %>
-  <%= link_to "New Photo Album", new_spud_admin_photo_album_path, :class => "btn btn-primary", :title => "New Photo Album" %>
+  <%= link_to 'Delete Selected', mass_destroy_spud_admin_photos_path, :class => 'spud_admin_photo_mass_destroy btn btn-danger', :confirm => 'Are you sure?' %>
+  <%= link_to "New Photo", new_spud_admin_photo_path, :class => "spud_admin_photo_create ajax btn btn-primary", :title => "New Photo" %>
 <% end %>
 
 <%= content_for :detail do %>
-  <div id="spud_admin_photo_galleries" class="spud_admin_photo_ui_thumbs">
-    <% @photo_albums.each do |album| %>
-      <div class="spud_admin_photo_ui_thumb">
-        <h4><%= album.title %></h4>
-        <div class="spud_admin_photo_ui_thumb_controls">
-          <%= link_to 'Edit', edit_spud_admin_photo_album_path(album) %>
-          <%= link_to 'Delete', spud_admin_photo_album_path(album), :method => :delete %>
-        </div>
-      </div>
-    <% end %>
+  <div id="spud_admin_photos" class="spud_admin_photo_ui_thumbs">
+    <%= render :partial => 'photo', :collection => @photos %>
   <div>
 <% end %>

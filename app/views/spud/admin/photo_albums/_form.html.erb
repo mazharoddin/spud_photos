@@ -1,6 +1,10 @@
-<%= form_for @photo_album, :url => path, :html => {:class => 'form-horizontal'} do |f| %> 
+<%= content_for :data_controls do %>
+  <%= link_to "New Photo", new_spud_admin_photo_path, :class => "spud_admin_photo_create ajax btn btn-primary", :title => "New Photo" %>
+<% end %>
+
+<%= form_for @photo_album, :url => path, :html => {:class => 'form-horizontal', :id => 'spud_admin_photo_album_form'} do |f| %> 
   
-  <%=error_messages_for(f.object)%>
+  <%= error_messages_for(f.object) %>
   
   <fieldset>
     <legend>Photo Album Info</legend>  
@@ -11,20 +15,25 @@
         </div>
       </div>
   </fieldset>
-  
+
   <fieldset>
-    <legend>Photos</legend>
-    <div id="spud_admin_photo_gallery_photo_selectors" class="spud_admin_photo_ui_thumbs">
-      <% @photos.each do |photo| %>
-        <div class="spud_admin_photo_ui_thumb spud_admin_photo_ui_thumb_selectable">
-          <%= check_box_tag 'spud_photo_album[photo_ids][]', photo.id, (@photo_album.photo_ids.include?(photo.id)) %>
-        </div>
-      <% end %>
+    <legend>Select Photos</legend>
+    <div id="spud_admin_photos_selected">
+      <h4>Selected:</h4>
+      <div class="spud_admin_photo_ui_thumbs spud_admin_photo_ui_thumbs_sortable">
+        <%= render :partial => '/spud/admin/photos/photo', :collection => @photo_album.photos %>
+      </div>
+    </div>
+    <div id="spud_admin_photos_available">
+      <h4>Available:</h4>
+      <div class="spud_admin_photo_ui_thumbs spud_admin_photo_ui_thumbs_sortable">
+        <%= render :partial => '/spud/admin/photos/photo', :collection => @photo_album.photos_available %>
+      </div>
     </div>
   </fieldset>
 
-  <div class="form-actions">
-    <%= f.submit "Save Photo Gallery", :class=>"btn btn-primary form-btn", "data-loading-text" => "Saving..." %> 
+  <div class="form-actions" style="clear:both">
+    <%= f.submit "Save Photo Album", :class=>"btn btn-primary form-btn", "data-loading-text" => "Saving..." %> 
     or <%=link_to "cancel", request.referer, :class => "btn" %>
   </div>
 

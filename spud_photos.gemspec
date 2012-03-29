@@ -9,13 +9,39 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Greg Woods"]
-  s.date = "2012-02-28"
+  s.date = "2012-03-29"
   s.email = "greg@westlakedesign.com"
   s.files = [
+    "app/assets/images/spud/photos/buttons/cog_16x16.png",
+    "app/assets/images/spud/photos/buttons/x_16x16.png",
+    "app/assets/javascripts/spud/admin/photo_albums.js",
+    "app/assets/javascripts/spud/admin/photo_galleries.js",
+    "app/assets/javascripts/spud/admin/photos.js",
+    "app/assets/stylesheets/spud/admin/photo_albums.css",
+    "app/assets/stylesheets/spud/admin/photo_galleries.css",
+    "app/assets/stylesheets/spud/admin/photos.css",
+    "app/controllers/spud/admin/photo_albums_controller.rb",
+    "app/controllers/spud/admin/photo_galleries_controller.rb",
+    "app/controllers/spud/admin/photos_controller.rb",
+    "app/helpers/spud/admin/photo_albums_helper.rb",
+    "app/helpers/spud/admin/photo_galleries_helper.rb",
+    "app/helpers/spud/admin/photos_helper.rb",
     "app/models/spud_photo.rb",
     "app/models/spud_photo_album.rb",
     "app/models/spud_photo_gallery.rb",
-    "app/models/spud_photo_style.rb",
+    "app/views/layouts/spud/admin/spud_photos.html.erb",
+    "app/views/spud/admin/photo_albums/_form.html.erb",
+    "app/views/spud/admin/photo_albums/edit.html.erb",
+    "app/views/spud/admin/photo_albums/index.html.erb",
+    "app/views/spud/admin/photo_albums/new.html.erb",
+    "app/views/spud/admin/photo_galleries/_form.html.erb",
+    "app/views/spud/admin/photo_galleries/edit.html.erb",
+    "app/views/spud/admin/photo_galleries/index.html.erb",
+    "app/views/spud/admin/photo_galleries/new.html.erb",
+    "app/views/spud/admin/photos/_form.html.erb",
+    "app/views/spud/admin/photos/edit.html.erb",
+    "app/views/spud/admin/photos/index.html.erb",
+    "app/views/spud/admin/photos/new.html.erb",
     "config/application.rb",
     "config/boot.rb",
     "config/routes.rb",

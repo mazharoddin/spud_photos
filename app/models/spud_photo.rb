@@ -8,13 +8,16 @@ class SpudPhoto < ActiveRecord::Base
     :url => "/system/spud_photos/:id/:style/:basename.:extension",
     :path => ":rails_root/public/system/spud_photos/:id/:style/:basename.:extension"
 
+  validates_attachment_presence :photo
+
   def dynamic_styles
     admin_styles = {
-      :admin_small => '100x100#',
-      :admin_medium => '200x200#',
-      :admin_large => '300x300#'
+      :spud_admin_small => '100x100#',
+      :spud_admin_medium => '300x300',
+      :spud_admin_large => '300x300#'
     }
-    return admin_styles + Spud::Blog.config.photo_styles
+    return admin_styles
+    #return admin_styles.merge(Spud::Blog.config.photo_styles)
   end
 
 end
