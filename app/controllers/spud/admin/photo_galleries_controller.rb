@@ -1,12 +1,13 @@
 class Spud::Admin::PhotoGalleriesController < Spud::Admin::ApplicationController
 
-  before_filter :get_photo, :only => [:show, :edit, :update, :destroy]
-
+  before_filter :get_gallery, :only => [:show, :edit, :update, :destroy]
+  before_filter :get_albums, :only => [:new, :create, :edit, :update]
   respond_to :html, :json, :xml
+  layout 'spud/admin/spud_photos'
 
   def index
-    @photo_gallerys = SpudPhotoGallery.all
-    respond_with @photo_gallerys
+    @photo_galleries = SpudPhotoGallery.all
+    respond_with @photo_galleries
   end
   
   def show
@@ -39,8 +40,12 @@ class Spud::Admin::PhotoGalleriesController < Spud::Admin::ApplicationController
     respond_with @photo_gallery, :location => spud_admin_photo_galleries_path
   end
 
-  def get_photo
+  def get_gallery
     @photo_gallery = SpudPhotoGallery.find(params[:id])
+  end
+
+  def get_albums
+    @photo_albums = SpudPhotoAlbum.all
   end
 
 end

@@ -1,9 +1,9 @@
-<%= form_for @photo_album, :url => path, :html => {:class => 'form-horizontal'} do |f| %> 
+<%= form_for @photo_gallery, :url => path, :html => {:class => 'form-horizontal'} do |f| %> 
   
   <%=error_messages_for(f.object)%>
   
   <fieldset>
-    <legend>Photo Album Info</legend>  
+    <legend>Gallery Info</legend>  
       <div class="control-group">
         <%= f.label :title, :class => "control-label" %>
         <div class="controls">
@@ -13,11 +13,12 @@
   </fieldset>
   
   <fieldset>
-    <legend>Photos</legend>
-    <div id="spud_admin_photo_gallery_photo_selectors" class="spud_admin_photo_ui_thumbs">
-      <% @photos.each do |photo| %>
+    <legend>Albums</legend>
+    <div id="spud_admin_photo_gallery_album_selectors" class="spud_admin_photo_ui_thumbs">
+      <% @photo_albums.each do |album| %>
         <div class="spud_admin_photo_ui_thumb spud_admin_photo_ui_thumb_selectable">
-          <%= check_box_tag 'spud_photo_album[photo_ids][]', photo.id, (@photo_album.photo_ids.include?(photo.id)) %>
+          <%= check_box_tag 'spud_photo_gallery[album_ids][]', album.id, (@photo_gallery.album_ids.include?(album.id)) %>
+          <h4><%= album.title %></h4>
         </div>
       <% end %>
     </div>

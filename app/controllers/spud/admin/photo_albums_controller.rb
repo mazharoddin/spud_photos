@@ -1,8 +1,9 @@
 class Spud::Admin::PhotoAlbumsController < Spud::Admin::ApplicationController
 
   before_filter :get_album, :only => [:show, :edit, :update, :destroy]
-
+  before_filter :get_photos, :only => [:new, :create, :edit, :update]
   respond_to :html, :json, :xml
+  layout 'spud/admin/spud_photos'
 
   def index
     @photo_albums = SpudPhotoAlbum.all
@@ -41,6 +42,10 @@ class Spud::Admin::PhotoAlbumsController < Spud::Admin::ApplicationController
 
   def get_album
     @photo_album = SpudPhotoAlbum.find(params[:id])
+  end
+
+  def get_photos
+    @photos = SpudPhoto.all
   end
 
 end

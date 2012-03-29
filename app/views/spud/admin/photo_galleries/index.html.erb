@@ -1,0 +1,17 @@
+<%= content_for :data_controls do %>
+  <%= link_to "New Photo Gallery", new_spud_admin_photo_gallery_path, :class => "btn btn-primary", :title => "New Photo Gallery" %>
+<% end %>
+
+<%= content_for :detail do %>
+  <div id="spud_admin_photo_galleries" class="spud_admin_photo_ui_thumbs">
+    <% @photo_galleries.each do |gallery| %>
+      <div class="spud_admin_photo_ui_thumb">
+        <h4><%= gallery.title %></h4>
+        <div class="spud_admin_photo_ui_thumb_controls">
+          <%= link_to 'Edit', edit_spud_admin_photo_gallery_path(gallery) %>
+          <%= link_to 'Delete', spud_admin_photo_gallery_path(gallery), :method => :delete %>
+        </div>
+      </div>
+    <% end %>
+  <div>
+<% end %>
