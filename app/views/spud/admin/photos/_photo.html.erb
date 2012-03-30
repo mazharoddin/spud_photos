@@ -4,6 +4,6 @@
   </div>
   <div class="spud_admin_photo_ui_thumb_controls">
     <%= link_to 'Edit', edit_spud_admin_photo_path(photo), :class => 'ajax spud_admin_photos_btn_edit' %>
-    <%= link_to 'Delete', spud_admin_photo_path(photo), :method => :delete, :remote => true, :class => 'spud_admin_photos_btn_delete', :confirm => 'Are you sure?' %>
+    <%= link_to 'Delete', spud_admin_photo_path(photo), :method => :delete, :remote => true, :class => 'spud_admin_photos_btn_delete', :confirm => 'Are you sure? This will permanently delete the photo from all albums it currently belongs to.' %>
   </div>
 </div>

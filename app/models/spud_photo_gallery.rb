@@ -11,4 +11,12 @@ class SpudPhotoGallery < ActiveRecord::Base
     end
   end
 
+  def albums_available
+    if album_ids.any?
+      return SpudPhotoAlbum.where('id not in (?)', album_ids)
+    else
+      return SpudPhotoAlbum.all
+    end
+  end
+
 end

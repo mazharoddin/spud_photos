@@ -9,7 +9,7 @@ Spud.Admin.Photos = new function(){
     $('.spud_admin_photo_ui_thumbs_sortable').sortable({
       connectWith:'.spud_admin_photo_ui_thumbs_sortable'
     });
-    $('#spud_admin_photo_album_form').live('submit', self.submittedPhotoAlbumForm)
+    $('#spud_admin_photo_album_form, #spud_admin_photo_gallery_form').live('submit', self.submittedPhotoAlbumOrGalleryForm)
     $('.spud_admin_photo_mass_destroy').live('click', self.massDestroySelected);
     $('#spud_admin_photo_form').live('submit', self.submittedPhotoForm);
     $('.spud_admin_photo_ui_thumb_selectable input[type=checkbox]').live('click', self.invertPhotoUiThumbCheckbox);
@@ -17,12 +17,12 @@ Spud.Admin.Photos = new function(){
     self.markSelectedPhotoUiThumbs();
   };
 
-  this.submittedPhotoAlbumForm = function(e){
+  this.submittedPhotoAlbumOrGalleryForm = function(e){
     // update photo checkboxes
     $('.spud_admin_photo_ui_thumb').each(function(){
       var item = $(this);
       var checkbox = item.find('input[type=checkbox]');
-      checkbox.attr('checked', (item.parents('#spud_admin_photos_selected').length>0));
+      checkbox.attr('checked', (item.parents('.spud_admin_photos_selection_left').length>0));
     });
   }
 

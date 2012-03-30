@@ -4,14 +4,6 @@
 
 <%= content_for :detail do %>
   <div id="spud_admin_photo_galleries" class="spud_admin_photo_ui_thumbs">
-    <% @photo_albums.each do |album| %>
-      <div id="spud_admin_photo_album_<%= album.id %>" class="spud_admin_photo_ui_thumb" style="background-image:url('<%= album.top_photo_url(:spud_admin_medium) %>')">
-        <h4><%= album.title %></h4>
-        <div class="spud_admin_photo_ui_thumb_controls">
-          <%= link_to 'Edit', edit_spud_admin_photo_album_path(album), :class => 'spud_admin_photos_btn_edit' %>
-          <%= link_to 'Delete', spud_admin_photo_album_path(album), :method => :delete, :class => 'spud_admin_photos_btn_delete', :remote => true, :confirm => 'Are you sure?' %>
-        </div>
-      </div>
-    <% end %>
+    <%= render :partial => 'album', :collection => @photo_albums %>
   <div>
 <% end %>

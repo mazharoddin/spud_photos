@@ -1,5 +1,7 @@
 <%= content_for :data_controls do %>
+  <!--
   <%= link_to 'Delete Selected', mass_destroy_spud_admin_photos_path, :class => 'spud_admin_photo_mass_destroy btn btn-danger', :confirm => 'Are you sure?' %>
+  -->
   <%= link_to "New Photo", new_spud_admin_photo_path, :class => "spud_admin_photo_create ajax btn btn-primary", :title => "New Photo" %>
 <% end %>
 
