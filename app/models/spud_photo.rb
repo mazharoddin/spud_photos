@@ -15,8 +15,7 @@ class SpudPhoto < ActiveRecord::Base
       :spud_admin_small => '125x125#',
       :spud_admin_medium => '300x300'
     }
-    return admin_styles
-    #return admin_styles.merge(Spud::Blog.config.photo_styles)
+    return admin_styles.merge(Spud::Photos.config.photo_styles)
   end
 
 end
