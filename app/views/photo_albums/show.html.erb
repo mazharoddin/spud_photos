@@ -3,13 +3,15 @@
 <% end %>
 
 <% content_for :head do %>
-  
+
 <% end %>
+
+<h2>Photo Album: <% @photo_album.title %></h2>
 
 <div id="spud_photo_galleries">
   <% @photo_album.photos.each do |photo| %>
     <div class="spud_photo_album_thumbnail">
-      <%= link_to image_tag(photo.photo.url(:small)), photo.photo.url(:large) %>
+      <%= link_to image_tag(photo.photo.url(:small), :alt => photo.caption, :title => photo.title), photo.photo.url(:large) %>
     </div>
   <% end %>
 </div>

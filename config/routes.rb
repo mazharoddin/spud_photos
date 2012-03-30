@@ -12,8 +12,8 @@ Rails.application.routes.draw do
 
   scope Spud::Photos.config.base_path do
     if Spud::Photos.config.galleries_enabled
-      resources :photo_galleries, :only => [:index, :show], :path => '/' do
-        resources :photo_albums, :only => :show, :path => '/'
+      resources :photo_galleries, :only => :index, :path => '/' do
+        resources :photo_albums, :only => [:index, :show], :path => '/'
       end
     else
       resources :photo_albums, :only => [:index, :show], :path => '/'

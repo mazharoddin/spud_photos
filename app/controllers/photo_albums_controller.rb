@@ -2,6 +2,7 @@ class PhotoAlbumsController < ApplicationController
 
   respond_to :html, :json, :xml
   layout Spud::Photos.base_layout
+
   def index
     if params[:photo_gallery_id]
       @photo_gallery = SpudPhotoGallery.find_by_url_name(params[:photo_gallery_id])
