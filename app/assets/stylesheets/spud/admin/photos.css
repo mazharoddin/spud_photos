@@ -60,7 +60,7 @@
 .spud_admin_photo_ui_thumb_selected:nth-child(6n){
   margin-right: -3px;
 }
-.spud_admin_photo_ui_thumb h4{
+.spud_admin_photo_ui_thumb h5{
   font-size: 12px;
   color: white;
   text-align: center;

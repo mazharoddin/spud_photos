@@ -6,8 +6,10 @@ class SpudPhotoAlbum < ActiveRecord::Base
     :class_name => 'SpudPhoto',
     :join_table => 'spud_photo_albums_photos',
     :order => 'created_at'
-  validates_presence_of :title
-  validates_uniqueness_of :title
+  validates_presence_of :title, :url_name
+  validates_uniqueness_of :title, :url_name
+  before_validation :set_url_name
+
 
   def top_photo_url(style)
     unless photos.empty?
@@ -22,4 +24,11 @@ class SpudPhotoAlbum < ActiveRecord::Base
       return SpudPhoto.all
     end
   end
+
+  private
+
+  def set_url_name
+    self.url_name = self.title.parameterize
+  end
+
 end

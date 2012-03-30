@@ -10,4 +10,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :photo_galleries, :only => [:index, :show], :path => 'galleries' do
+    resources :photo_albums, :only => [:index, :show], :path => 'albums'
+  end
+
 end

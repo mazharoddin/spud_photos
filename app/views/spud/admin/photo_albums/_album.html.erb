@@ -1,5 +1,5 @@
 <div id="spud_admin_photo_album_<%= album.id %>" class="spud_admin_photo_ui_thumb" style="background-image:url('<%= album.top_photo_url(:spud_admin_small) %>')">
-  <h4><%= album.title %></h4>
+  <h5><%= album.title %></h5>
   <div style="display:none;">
     <%= check_box_tag 'spud_photo_gallery[album_ids][]', album.id, (@photo_gallery && @photo_gallery.album_ids.include?(album.id)) %>
   </div>
