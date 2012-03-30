@@ -42,11 +42,11 @@ A Gallery is just an additional layer of organization above the Album layer. For
 
 ## Customizing Views
 
-A number of built-in views have been provided to help you get started with the frontend display. Customzing these views will require you to copy them into your local application, which can be accomplished by using the views generator. 
+A number of built-in views have been provided to help you get started with the frontend display. Customizing these views will require you to copy them into your local application, which can be accomplished by using the views generator. 
 
 	rails generate spud:photos:views
 
-__NOTE:__ The built-in views are likely to undergo changes as features are added to the blogging engine. If a new version of Spud Photos does not play nicely with your customized views, try backing up your views to an alternate location and running the views generator again to see what has changed. 
+__NOTE:__ The built-in views are likely to undergo changes as features are added to the photos engine. If a new version of Spud Photos does not play nicely with your customized views, try backing up your views to an alternate location and running the views generator again to see what has changed. 
 
 
 [1]:https://github.com/davydotcom/spud_core_admin
