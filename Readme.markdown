@@ -38,7 +38,7 @@ The `photo_styles` option will be passed to [Paperclip][2], so any valid papercl
 
 ## Galleries
 
-A Gallery is just an additional layer of organization above the Album layer. For example, a Gallery called "Vacations" might include Albums titled "Europe", "Hawii", and "Florida". Galleries are turned off by default. 
+A Gallery is just an additional layer of organization above the Album layer. For example, a Gallery called "Vacations" might include Albums titled "Europe", "Hawaii", and "Florida". Galleries are turned off by default. 
 
 ## Customizing Views
 
