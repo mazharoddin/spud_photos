@@ -34,7 +34,7 @@ Spud Photos accepts the following configuration options:
 	  }
 	end
 
-The `photo_styles` option will be passed to [Paperclip], so any valid paperclip styles can be added here.
+The `photo_styles` option will be passed to [Paperclip][2], so any valid paperclip styles can be added here.
 
 ## Galleries
 
