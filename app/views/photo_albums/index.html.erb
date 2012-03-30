@@ -1,0 +1,16 @@
+<% content_for :title do %>
+  <%= (@photo_gallery ? @photo_gallery.title : 'Photo Albums') %> | <%= Spud::Core.site_name %>
+<% end %>
+
+<% content_for :head do %>
+  
+<% end %>
+
+<div id="spud_photo_albums">
+  <% @photo_albums.each do |album| %>
+    <div class="spud_photo_album_thumbnail">
+      <h3><%= link_to album.title, photo_album_path(album.url_name) %></h3>
+      <%= image_tag album.top_photo_url(:small) %>
+    </div>
+  <% end %>
+</div>

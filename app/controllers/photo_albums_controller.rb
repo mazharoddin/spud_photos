@@ -4,9 +4,9 @@ class PhotoAlbumsController < ApplicationController
 
   def index
     if params[:photo_gallery_id]
-      gallery = SpudPhotoGallery.find_by_url_name(params[:photo_gallery_id])
-      if gallery
-        @photo_albums = SpudPhotoGallery.find_by_url_name(params[:photo_gallery_id]).albums.order('created_at desc')
+      @photo_gallery = SpudPhotoGallery.find_by_url_name(params[:photo_gallery_id])
+      if @photo_gallery
+        @photo_albums = @photo_gallery.albums.order('created_at desc')
       else
         @photo_albums = []
       end
