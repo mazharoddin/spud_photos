@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "spud_photos"
-  s.version = "0.0.1"
+  s.version = ""
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Greg Woods"]
@@ -40,6 +40,10 @@ Gem::Specification.new do |s|
     "app/models/spud_photo_album.rb",
     "app/models/spud_photo_gallery.rb",
     "app/views/layouts/spud/admin/spud_photos.html.erb",
+    "app/views/photo_albums/index.html.erb",
+    "app/views/photo_albums/show.html.erb",
+    "app/views/photo_galleries/index.html.erb",
+    "app/views/photo_galleries/show.html.erb",
     "app/views/spud/admin/photo_albums/_album.html.erb",
     "app/views/spud/admin/photo_albums/_form.html.erb",
     "app/views/spud/admin/photo_albums/destroy.js.erb",
