@@ -11,11 +11,11 @@ module Spud
           :thumbnail => 'spud/photos/photo_albums_thumb.png',
           :url => '/spud/admin/photo_albums',
           :order => 82
-        },{
-          :name => 'Photos',
-          :thumbnail => 'spud/photos/photo_albums_thumb.png',
-          :url => '/spud/admin/photos',
-          :order => 83
+        # },{
+        #   :name => 'Photos',
+        #   :thumbnail => 'spud/photos/photo_albums_thumb.png',
+        #   :url => '/spud/admin/photos',
+        #   :order => 83
         }]
         if Spud::Photos.config.galleries_enabled
           Spud::Core.config.admin_applications += [{

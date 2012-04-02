@@ -6,6 +6,9 @@ Spud.Admin.Photos = new function(){
   var self = this;
 
   this.init = function(){
+    self.markSelectedPhotoUiThumbs();
+
+    // event handlers
     $('.spud_admin_photo_ui_thumbs_sortable').sortable({
       connectWith:'.spud_admin_photo_ui_thumbs_sortable'
     });
@@ -14,7 +17,73 @@ Spud.Admin.Photos = new function(){
     $('#spud_admin_photo_form').live('submit', self.submittedPhotoForm);
     $('.spud_admin_photo_ui_thumb_selectable input[type=checkbox]').live('click', self.invertPhotoUiThumbCheckbox);
     $('.spud_admin_photo_ui_thumb_selectable').live('click', self.selectedPhotoUiThumb);
-    self.markSelectedPhotoUiThumbs();
+
+    // html5 drag and drop file 
+    var droparea = document.getElementById('spud_admin_photos_selected');
+    droparea.addEventListener('dragenter', self.stopDndPropagation, false);
+    droparea.addEventListener('dragexit', self.stopDndPropagation, false);
+    droparea.addEventListener('dragover', self.stopDndPropagation, false);
+    droparea.addEventListener('drop', self.droppedFile, false);
+  };
+
+  // prevent default browser behavior of opening the dropped file
+  this.stopDndPropagation = function(e){
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  this.fileQueue = [];
+  this.fileQueueStarted = false;
+  this.fileQueueIdentifier = 0;
+
+  this.droppedFile = function(e){
+    e.stopPropagation();
+    e.preventDefault();
+    var files = e.dataTransfer.files;
+    self.uploadCount += files.length;
+    var i = 0;
+    while(i < files.length){
+      self.fileQueue.push(files[i]);
+      i++;
+    }
+    if(!this.fileQueueStarted){
+      self.uploadNextPhoto();
+      if(self.fileQueue.length > 0){
+        self.uploadNextPhoto();  
+      }
+    }
+  };
+
+  this.uploadNextPhoto = function(){
+    console.log('Upload next photo!');
+    if(self.fileQueue.length == 0){
+      self.fileQueueStarted = false;
+      return;
+    }
+    var id = self.fileQueueIdentifier++;
+
+    var progressBar = $('#spud_admin_photo_upload_queue_bars_template').clone();
+    progressBar.show().attr('id', id);
+    $('#spud_admin_photo_upload_queue_bars').append(progressBar);
+
+    self.fileQueueStarted = true;
+    var file = self.fileQueue.pop();
+    var fd = new FormData();
+    fd.append('spud_photo[photo]', file);
+    // send FormData object as ajax request
+    var xhr = new XMLHttpRequest();
+    xhr.upload.addEventListener('progress', self.queuedUploadProgress, false);
+    xhr.addEventListener('load', self.queuedUploadComplete, false);
+    xhr.addEventListener('error', self.photoUploadFailed, false);
+    xhr.addEventListener('abort', self.photoUploadCanceled, false);
+    xhr.open('POST', '/spud/admin/photos');
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.send(fd);
+  };
+
+  this.queuedUploadComplete = function(e){
+    self.photoUploadComplete(e);
+    self.uploadNextPhoto();
   };
 
   this.submittedPhotoAlbumOrGalleryForm = function(e){
