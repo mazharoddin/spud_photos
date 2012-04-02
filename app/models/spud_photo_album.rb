@@ -1,6 +1,6 @@
 class SpudPhotoAlbum < ActiveRecord::Base
 
-  attr_accessible :title, :url_name
+  attr_accessible :title, :url_name, :photos, :photo_ids
 
   has_and_belongs_to_many :galleries,
     :class_name => 'SpudPhotoGallery',
