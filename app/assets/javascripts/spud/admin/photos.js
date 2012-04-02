@@ -261,5 +261,6 @@ Spud.Admin.Photos = new function(){
   this.onQueuedPhotoUploadComplete = function(e, progressBar){
     self.onPhotoUploadComplete(e, progressBar);
     self.updateQueueCountLabel();
+    self.uploadNextPhoto();
   };
 };
