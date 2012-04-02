@@ -1,12 +1,17 @@
 class SpudPhoto < ActiveRecord::Base
+
+  attr_accessible :title, :caption, :photo
+
   has_and_belongs_to_many :albums,
     :class_name => 'SpudPhotoAlbum',
     :join_table => 'spud_photo_albums_photos'
 
   has_attached_file :photo, 
     :styles => lambda { |attachment| attachment.instance.dynamic_styles },
-    :url => "/system/spud_photos/:id/:style/:basename.:extension",
-    :path => ":rails_root/public/system/spud_photos/:id/:style/:basename.:extension"
+    :storage => Spud::Photos.paperclip_storage,
+    :s3_credentials => Spud::Photos.s3_credentials,
+    :url => Spud::Photos.storage_url,
+    :path => Spud::Photos.storage_path
 
   validates_attachment_presence :photo
 

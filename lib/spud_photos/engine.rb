@@ -5,11 +5,15 @@ module Spud
   module Photos
     class Engine < Rails::Engine
       engine_name :spud_photos
-      initializer :admin do
+      initializer :assets_photos do |config| 
+        Rails.application.config.assets.precompile += ["spud/admin/photos*"]
+      end
+      initializer :admin_photos do
         Spud::Core.config.admin_applications += [{
           :name => 'Photo Albums',
           :thumbnail => 'spud/photos/photo_albums_thumb.png',
           :url => '/spud/admin/photo_albums',
+          :retina => true,
           :order => 82
         # },{
         #   :name => 'Photos',
@@ -22,6 +26,7 @@ module Spud
             :name => 'Photo Galleries',
             :thumbnail => 'spud/photos/photo_albums_thumb.png',
             :url => '/spud/admin/photo_galleries',
+            :retina => true,
             :order => 81
           }]
         end
