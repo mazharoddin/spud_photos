@@ -1,4 +1,7 @@
 class SpudPhotoAlbum < ActiveRecord::Base
+
+  attr_accessible :title, :url_name
+
   has_and_belongs_to_many :galleries,
     :class_name => 'SpudPhotoGallery',
     :join_table => 'spud_photo_galleries_albums'
@@ -9,7 +12,6 @@ class SpudPhotoAlbum < ActiveRecord::Base
   validates_presence_of :title, :url_name
   validates_uniqueness_of :title, :url_name
   before_validation :set_url_name
-
 
   def top_photo_url(style)
     unless photos.empty?
