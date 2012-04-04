@@ -35,25 +35,23 @@ Spud.Admin.Photos = new function(){
     });
   }
 
-  this.massDestroySelected = function(e){
-    e.preventDefault();
-    var ids = $.map($('.spud_admin_photo_ui_thumb_selected'), function(val, i){ 
-      return $(val).find('input[type=checkbox]').val() 
-    });
-    $.ajax({
-      type: 'POST',
-      url: $(this).attr('href'),
-      data: {spud_photo_ids:ids},
-      success: function(data, textStatus, jqXHR){
-        $('.spud_admin_photo_ui_thumb_selected').fadeOut(200, function(){
-          $(this).remove();
-        });
-      },
-      error: function(jqXHR, textStatus, errorThrown){
-        console.log('An error occurred:')
-        console.log(arguments);
-      }
-    })
+  /* Handle file uploads passed via iframe (legacy support)
+  * -------------------------------------------------------- */
+
+  this.photoLegacyUploadErrors = function(html){
+    $('#spud_admin_photo_form').replaceWith(html);
+  };
+
+  this.photoLegacyUploadComplete = function(id, html){
+    var element = $('#spud_admin_photo_' + id);
+    if(element.length > 0){
+      element.replaceWith(htmlhtml);
+    }
+    else{
+      var target = $('#spud_admin_photos_selected .spud_admin_photo_ui_thumbs, #spud_admin_photos');
+      target.prepend(html).fadeIn(200);
+    }
+    $('#dialog').dialog('close');
   };
 
   // need to invert the checkbox state so that it gets properly checked/uncheckd when `selectedPhotoUiThumb` fires

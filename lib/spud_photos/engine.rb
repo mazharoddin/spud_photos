@@ -19,6 +19,7 @@ module Spud
         #   :name => 'Photos',
         #   :thumbnail => 'spud/photos/photo_albums_thumb.png',
         #   :url => '/spud/admin/photos',
+        #   :retina => true,
         #   :order => 83
         }]
         if Spud::Photos.config.galleries_enabled
