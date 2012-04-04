@@ -7,7 +7,6 @@ class Spud::Admin::PhotosController < Spud::Admin::ApplicationController
   layout 'spud/admin/spud_photos'
 
   add_breadcrumb 'Photos', :spud_admin_photos_path
-  belongs_to_spud_app :photos
 
   def index
     @photos = SpudPhoto.all
@@ -60,7 +59,7 @@ class Spud::Admin::PhotosController < Spud::Admin::ApplicationController
       end
     end
   end
-  
+
   def destroy
     flash[:notice] = 'SpudPhoto deleted successfully' if @photo.destroy
     respond_with @photo, :location => spud_admin_photos_path
