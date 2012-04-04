@@ -1,5 +1,7 @@
 class Spud::Admin::PhotosController < Spud::Admin::ApplicationController
 
+  include RespondsToParent
+
   before_filter :get_photo, :only => [:show, :edit, :update, :destroy]
   respond_to :html, :json, :xml, :js
   layout 'spud/admin/spud_photos'
@@ -32,7 +34,9 @@ class Spud::Admin::PhotosController < Spud::Admin::ApplicationController
     if request.xhr?
       render json_for_photo(success)
     else
-      respond_with @photo, :location => spud_admin_photos_path
+      respond_to_parent do
+        render 'show.js'
+      end
     end
   end
 

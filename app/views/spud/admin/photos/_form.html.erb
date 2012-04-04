@@ -1,4 +1,4 @@
-<%= form_for @photo, :url => (@photo.new_record? ? spud_admin_photos_path : spud_admin_photo_path(@photo)), :html => {:id => 'spud_admin_photo_form', :class => 'form-horizontal'} do |f| %> 
+<%= form_for @photo, :url => (@photo.new_record? ? spud_admin_photos_path : spud_admin_photo_path(@photo)), :html => {:id => 'spud_admin_photo_form', :target => 'spud_admin_photo_form_target', :class => 'form-horizontal'} do |f| %> 
   
   <%=error_messages_for(f.object)%>
   
@@ -44,5 +44,7 @@
     <%= f.submit "Save Photo", :class=>"btn btn-primary form-btn", "data-loading-text" => "Saving..." %> 
     <!--or <%=link_to "cancel", request.referer, :class => "btn" %> -->
   </div>
+
+  <iframe id="spud_admin_photo_form_target" name="spud_admin_photo_form_target" style="display:none;"></iframe>
 
 <% end %>
