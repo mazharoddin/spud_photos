@@ -2,8 +2,6 @@
   
   <%= error_messages_for(f.object) %>
   
-  <%= hidden_field_tag :spud_photo_album_order %>
-
   <fieldset>
     <legend>Photo Album Info</legend>  
     <div class="control-group">
@@ -18,7 +16,7 @@
     <legend>Selected Photos</legend>
     <div id="spud_admin_photo_album_actions" class="control-group">
       <%= link_to "Photo Library", spud_admin_photos_path, :class => "btn btn-primary", :id => 'spud_admin_photo_album_action_library' %>
-      <%= link_to "Upload Photo", new_spud_admin_photo_path, :class => "ajax btn btn-primary", :title => "New Photo" %>
+      <%= link_to "Upload Photo", new_spud_admin_photo_path, :class => "ajax btn btn-success", :title => "New Photo" %>
     </div>
     <div id="spud_admin_photo_upload_queue">
       <h5 id="spud_admin_photo_upload_queue_label">Queued Uploads: <span>0</span></h5>

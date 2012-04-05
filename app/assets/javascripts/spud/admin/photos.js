@@ -25,8 +25,7 @@ Spud.Admin.Photos = new function(){
   };
 
   this.submittedPhotoAlbumForm = function(){
-    var ids = $('#spud_admin_photos_selected .spud_admin_photo_ui_thumb').map(function(i, el){ return $(el).attr('rel') } );
-    $('#spud_photo_album_order').val(ids.toArray().join());
+
   };
 
   this.clickedPhotoRemoveFromLibrary = function(e){
@@ -202,7 +201,7 @@ Spud.Admin.Photos = new function(){
       }
     });
     dialog.dialog({
-      width: 660,
+      width: 675,
       modal: true,
       height: 450,
       title: 'My Photo Library',

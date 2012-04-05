@@ -22,7 +22,6 @@ class Spud::Admin::PhotoAlbumsController < Spud::Admin::ApplicationController
     @photo_album = SpudPhotoAlbum.new(params[:spud_photo_album])
     if @photo_album.save
       set_photo_order
-      @photo_album.spud_photo_albums_photos = photo_albums_photos
     end
     respond_with @photo_album, :location => spud_admin_photo_albums_path
   end
@@ -52,7 +51,7 @@ class Spud::Admin::PhotoAlbumsController < Spud::Admin::ApplicationController
   private
 
   def set_photo_order
-    order_ids = params[:spud_photo_album_order].split(',')
+    order_ids = params[:spud_photo_album][:photo_ids] || []
     @photo_album.spud_photo_albums_photos.each do |obj|
       logger.debug "##### ID: #{obj.spud_photo_id.to_s}"
       index = order_ids.index(obj.spud_photo_id.to_s)
