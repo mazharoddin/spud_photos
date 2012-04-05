@@ -4,28 +4,26 @@
   
   <fieldset>
     <legend>Photo Album Info</legend>  
-      <div class="control-group">
-        <%= f.label :title, :class => "control-label" %>
-        <div class="controls">
-          <%= f.text_field :title %>
-        </div>
+    <div class="control-group">
+      <%= f.label :title, :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :title %>
       </div>
+    </div>
   </fieldset>
 
   <fieldset class="spud_admin_photos_album_fieldset">
-    <%= link_to "New Photo", new_spud_admin_photo_path, :class => "spud_admin_photo_create ajax btn btn-primary", :title => "New Photo" %>
-    <legend>Select Photos</legend>
-    <div id="spud_admin_photos_selected" class="spud_admin_photos_selection_left">
-      <h4>Selected:</h4>
-      <div class="spud_admin_photo_ui_thumbs spud_admin_photo_ui_thumbs_sortable">
-        <%= render :partial => '/spud/admin/photos/photo', :collection => @photo_album.photos %>
-      </div>
+    <legend>Selected Photos</legend>
+    <div id="spud_admin_photo_album_actions" class="control-group">
+      <%= link_to "Photo Library", spud_admin_photos_path, :class => "btn btn-primary", :id => 'spud_admin_photo_album_action_library' %>
+      <%= link_to "Upload Photo", new_spud_admin_photo_path, :class => "ajax btn btn-primary", :title => "New Photo" %>
     </div>
-    <div id="spud_admin_photos_available" class="spud_admin_photos_selection_right">
-      <h4>Available:</h4>
-      <div class="spud_admin_photo_ui_thumbs spud_admin_photo_ui_thumbs_sortable">
-        <%= render :partial => '/spud/admin/photos/photo', :collection => @photo_album.photos_available %>
-      </div>
+    <div id="spud_admin_photo_upload_queue">
+      <h5 id="spud_admin_photo_upload_queue_label">Queued Uploads: <span>0</span></h5>
+      <div id="spud_admin_photo_upload_queue_bars"></div>
+    </div>
+    <div id="spud_admin_photos_selected" class="control-group spud_admin_photo_ui_thumbs spud_admin_photo_ui_thumbs_sortable">
+      <%= render :partial => '/spud/admin/photos/photo', :collection => @photo_album.photos %>
     </div>
   </fieldset>
 
@@ -35,10 +33,3 @@
   </div>
 
 <% end %>
-
-<div id="spud_admin_photo_upload_queue">
-  <h5 id="spud_admin_photo_upload_queue_label">Queued Uploads: <span>0</span></h5>
-  <div id="spud_admin_photo_upload_queue_bars">
-
-  </div>
-</div>

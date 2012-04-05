@@ -4,7 +4,7 @@ class Spud::Admin::PhotosController < Spud::Admin::ApplicationController
 
   before_filter :get_photo, :only => [:show, :edit, :update, :destroy]
   respond_to :html, :json, :xml, :js
-  layout 'spud/admin/spud_photos'
+  layout false
 
   def index
     @photos = SpudPhoto.all

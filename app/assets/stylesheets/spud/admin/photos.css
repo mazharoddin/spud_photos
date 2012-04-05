@@ -12,7 +12,7 @@
   margin: 15px 0;
 }
 .spud_admin_photo_ui_thumbs{
-  height: 350px;
+  height: 300px;
   padding: 0;
   border: 1px solid #cacaca;
   margin: 15px 0;
@@ -50,15 +50,18 @@
 .spud_admin_photo_ui_thumbs_selectable .spud_admin_photo_ui_thumb{
   cursor: pointer;
 }
+.spud_admin_photo_ui_thumbs_selectable .spud_admin_photo_ui_thumb_controls{
+  display: none;
+}
 .spud_admin_photo_ui_thumb_selected{
   border: 3px solid #006CCC;
-  margin: -3px 30px 30px -3px;
+  margin: 13px;
+}
+.spud_admin_photo_ui_thumb_small.spud_admin_photo_ui_thumb_selected{
+  margin: 9px;
 }
 .spud_admin_photo_ui_thumbs_sortable .spud_admin_photo_ui_thumb{
   cursor: move;
-}
-.spud_admin_photo_ui_thumb_selected:nth-child(6n){
-  margin-right: -3px;
 }
 .spud_admin_photo_ui_thumb h5{
   font-size: 12px;
@@ -86,7 +89,7 @@
   background: rgba(0,0,0,0.5);
   border-bottom-right-radius: 15px;
 }
-.spud_admin_photos_btn_delete{
+.spud_admin_photos_btn_remove, .spud_admin_photos_btn_delete{
   background: url('/assets/spud/photos/buttons/x_16x16.png');
   height: 16px;
   width: 16px;
@@ -111,19 +114,25 @@
   right: 0;
 }
 
+#spud_admin_photo_album_actions{
+
+}
+
 /* Upload Queue
 ---------------------------- */
+#spud_admin_photo_album_form{
+
+}
 .spud_admin_photo_progress{
   margin: 10px 0;
 }
 #spud_admin_photo_upload_queue{
   background: white;
-  position: fixed;
-  top: 10px;
-  right: 10px;
   padding: 15px;
-  width: 300px;
-  height: 120px;
+  margin: 0 0 0 10px;
+  width: 250px;
+  height: 270px;
+  float: right;
   border: 1px solid #cacaca;
-  overflow-y: hidden;
+  overflow-y: scroll;
 }

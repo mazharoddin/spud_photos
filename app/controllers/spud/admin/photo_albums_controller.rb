@@ -1,6 +1,6 @@
 class Spud::Admin::PhotoAlbumsController < Spud::Admin::ApplicationController
 
-  before_filter :get_album, :only => [:show, :edit, :update, :destroy]
+  before_filter :get_album, :only => [:show, :edit, :update, :destroy, :library]
   respond_to :html, :json, :xml
   layout 'spud/admin/spud_photos'
 

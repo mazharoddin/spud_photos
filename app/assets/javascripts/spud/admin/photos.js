@@ -14,9 +14,9 @@ Spud.Admin.Photos = new function(){
     });
     $('body').on('submit', '#spud_admin_photo_album_form, #spud_admin_photo_gallery_form', self.submittedPhotoAlbumOrGalleryForm)
     $('body').on('submit', '#spud_admin_photo_form', self.submittedPhotoForm);
-    //$('body').on('click', '.spud_admin_photo_mass_destroy', self.massDestroySelected);
-    $('body').on('click', '.spud_admin_photo_ui_thumb_selectable input[type=checkbox]', self.invertPhotoUiThumbCheckbox);
-    $('body').on('click', '.spud_admin_photo_ui_thumb_selectable', self.selectedPhotoUiThumb);
+    $('body').on('click', '.spud_admin_photos_btn_remove', self.clickedPhotoRemoveFromLibrary)
+    $('body').on('click', '.spud_admin_photo_ui_thumbs_selectable .spud_admin_photo_ui_thumb', self.selectedPhotoUiThumb);
+    $('body').on('click', '#spud_admin_photo_album_action_library', self.clickedPhotoLibrary);
     self.markSelectedPhotoUiThumbs();
 
     // html5 drag and drop file 
@@ -27,14 +27,11 @@ Spud.Admin.Photos = new function(){
     droparea.addEventListener('drop', self.droppedFile, false);
   };
 
-  this.submittedPhotoAlbumOrGalleryForm = function(e){
-    // update photo checkboxes
-    $('.spud_admin_photo_ui_thumb').each(function(){
-      var item = $(this);
-      var checkbox = item.find('input[type=checkbox]');
-      checkbox.attr('checked', (item.parents('.spud_admin_photos_selection_left').length>0));
+  this.clickedPhotoRemoveFromLibrary = function(e){
+    $(this).parents('.spud_admin_photo_ui_thumb').fadeOut(200, function(){
+      $(this).remove();
     });
-  }
+  };
 
   /* Handle file uploads passed via iframe (legacy support)
   * -------------------------------------------------------- */
@@ -55,22 +52,13 @@ Spud.Admin.Photos = new function(){
     $('#dialog').dialog('close');
   };
 
-  // need to invert the checkbox state so that it gets properly checked/uncheckd when `selectedPhotoUiThumb` fires
-  this.invertPhotoUiThumbCheckbox = function(e){
-    $(this).attr('checked', !$(this).attr('checked'));
-  };
-
   this.selectedPhotoUiThumb = function(e){
-    var checkbox = $(this).find('input[type=checkbox]');
-    if(checkbox){
-      if(checkbox.attr('checked')){
-        $(this).removeClass('spud_admin_photo_ui_thumb_selected');
-        checkbox.attr('checked', false);
-      }
-      else{
-        $(this).addClass('spud_admin_photo_ui_thumb_selected');
-        checkbox.attr('checked', true);
-      }
+    var thumb = $(this);
+    if(thumb.hasClass('spud_admin_photo_ui_thumb_selected')){
+      $(this).removeClass('spud_admin_photo_ui_thumb_selected');
+    }
+    else{
+      $(this).addClass('spud_admin_photo_ui_thumb_selected');
     }
   };
 
@@ -127,9 +115,9 @@ Spud.Admin.Photos = new function(){
       // send FormData object as ajax request
       var xhr = new XMLHttpRequest();
       xhr.upload.addEventListener('progress', function(e){ self.onPhotoUploadProgress(e, progressBar) }, false);
-      xhr.addEventListener('load', self.onPhotoUploadComplete, false);
-      xhr.addEventListener('error', self.onPhotoUploadFailure, false);
-      xhr.addEventListener('abort', self.onPhotoUploadCancel, false);
+      xhr.addEventListener('load', function(e){ self.onPhotoUploadComplete(e, progressBar); }, false);
+      xhr.addEventListener('error', function(e){ self.onPhotoUploadFailure(e, progressBar); }, false);
+      xhr.addEventListener('abort', function(e){ self.onPhotoUploadCancel(e, progressBar); }, false);
       xhr.open('POST', form.attr('action'));
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       xhr.send(fd);
@@ -161,7 +149,7 @@ Spud.Admin.Photos = new function(){
       progressBar.find('.progress').addClass('progress-success');
       progressBar.find('.spud_admin_photo_progress_status').text('Processing');
     }
-  }; 
+  };
 
   this.onPhotoUploadComplete = function(e, progressBar){
     // success
@@ -174,7 +162,7 @@ Spud.Admin.Photos = new function(){
         element.replaceWith(photo.html);
       }
       else{
-        var target = $('#spud_admin_photos_selected .spud_admin_photo_ui_thumbs, #spud_admin_photos');
+        var target = $('#spud_admin_photos_selected, #spud_admin_photos');
         target.prepend(photo.html).fadeIn(200);
       }
       $('#dialog').dialog('close');
@@ -192,6 +180,74 @@ Spud.Admin.Photos = new function(){
   this.onPhotoUploadCancel = function(e, progressBar){
     progressBar.find('.spud_admin_photo_progress_status').text('Done!');
     progressBar.find('.progress').addClass('progress-danger');
+  };
+
+  /*
+  * Add From Photo Library
+  ------------------------------- */
+
+  this.clickedPhotoLibrary = function(e){
+    var url = this.href;
+    $.ajax({
+      url:url,
+      success:self.photoLibraryLoaded
+    });
+    return false;
+  };
+
+  this.photoLibraryLoaded = function(html){
+    var dialog = $("#dialog");
+    if(dialog.length == 0){
+      dialog = $('<div id="dialog" style="display:hidden;"></div>').appendTo('body');
+    }
+    dialog.html(html);
+    $('#spud_admin_photos_selected .spud_admin_photo_ui_thumb').each(function(){
+      var id = $(this).attr('id');
+      var dupe = dialog.find('#'+id);
+      if(dupe){
+        dupe.remove();
+      }
+    });
+    dialog.dialog({
+      width: 660,
+      modal: true,
+      height: 450,
+      title: 'My Photo Library',
+      buttons: {
+        'Add Selected': self.addSelectedPhotosFromLibrary,
+        'Delete Selected': self.deleteSelectedPhotosFromLibrary
+      }
+    });
+  };
+
+  this.addSelectedPhotosFromLibrary = function(e){
+    $('#spud_admin_photo_library .spud_admin_photo_ui_thumb_selected')
+      .removeClass('spud_admin_photo_ui_thumb_selected')
+      .prependTo('#spud_admin_photos_selected')
+      .hide()
+      .fadeIn(200);
+    $(this).dialog('close');
+  };
+
+  this.deleteSelectedPhotosFromLibrary = function(e){
+    var ids = $.map($('.spud_admin_photo_ui_thumb_selected'), function(val, i){ 
+      return $(val).attr('rel');
+    });
+    $.ajax({
+      type: 'POST',
+      url: '/spud/admin/photos/mass_destroy',
+      data: {spud_photo_ids:ids},
+      success: function(data, textStatus, jqXHR){
+        $('.spud_admin_photo_ui_thumb_selected').fadeOut(200, function(){
+          $(this).remove();
+        });
+      },
+      error: function(jqXHR, textStatus, errorThrown){
+        console.log('An error occurred:')
+        console.log(arguments);
+      }
+    })
+
   };
 
   /*
