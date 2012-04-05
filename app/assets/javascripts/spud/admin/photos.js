@@ -12,11 +12,12 @@ Spud.Admin.Photos = new function(){
     $('.spud_admin_photo_ui_thumbs_sortable').sortable({
       connectWith:'.spud_admin_photo_ui_thumbs_sortable'
     });
-    $('#spud_admin_photo_album_form, #spud_admin_photo_gallery_form').live('submit', self.submittedPhotoAlbumOrGalleryForm)
-    $('.spud_admin_photo_mass_destroy').live('click', self.massDestroySelected);
-    $('#spud_admin_photo_form').live('submit', self.submittedPhotoForm);
-    $('.spud_admin_photo_ui_thumb_selectable input[type=checkbox]').live('click', self.invertPhotoUiThumbCheckbox);
-    $('.spud_admin_photo_ui_thumb_selectable').live('click', self.selectedPhotoUiThumb);
+    $('body').on('submit', '#spud_admin_photo_album_form, #spud_admin_photo_gallery_form', self.submittedPhotoAlbumOrGalleryForm)
+    $('body').on('submit', '#spud_admin_photo_form', self.submittedPhotoForm);
+    //$('body').on('click', '.spud_admin_photo_mass_destroy', self.massDestroySelected);
+    $('body').on('click', '.spud_admin_photo_ui_thumb_selectable input[type=checkbox]', self.invertPhotoUiThumbCheckbox);
+    $('body').on('click', '.spud_admin_photo_ui_thumb_selectable', self.selectedPhotoUiThumb);
+    self.markSelectedPhotoUiThumbs();
 
     // html5 drag and drop file 
     var droparea = document.getElementById('spud_admin_photos_selected');
