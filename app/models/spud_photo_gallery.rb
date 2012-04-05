@@ -2,9 +2,11 @@ class SpudPhotoGallery < ActiveRecord::Base
 
   attr_accessible :title, :url_name, :albums, :album_ids
 
-  has_and_belongs_to_many :albums,
-    :class_name => 'SpudPhotoAlbum',
-    :join_table => 'spud_photo_galleries_albums'
+  has_many :spud_photo_galleries_albums
+  has_many :albums,
+    :through => :spud_photo_galleries_albums,
+    :source => :spud_photo_album
+
   validates_presence_of :title, :url_name
   validates_uniqueness_of :title, :url_name
   before_validation :set_url_name
@@ -26,7 +28,9 @@ class SpudPhotoGallery < ActiveRecord::Base
   private
 
   def set_url_name
-    self.url_name = self.title.parameterize
+    if self.title
+      self.url_name = self.title.parameterize
+    end
   end
 
 end

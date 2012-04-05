@@ -6,18 +6,15 @@ Spud.Admin.Photos = new function(){
   var self = this;
 
   this.init = function(){
-    self.markSelectedPhotoUiThumbs();
-
     // event handlers
     $('.spud_admin_photo_ui_thumbs_sortable').sortable({
       connectWith:'.spud_admin_photo_ui_thumbs_sortable'
     });
-    $('body').on('submit', '#spud_admin_photo_album_form, #spud_admin_photo_gallery_form', self.submittedPhotoAlbumOrGalleryForm)
+    $('body').on('submit', '#spud_admin_photo_album_form', self.submittedPhotoAlbumForm)
     $('body').on('submit', '#spud_admin_photo_form', self.submittedPhotoForm);
     $('body').on('click', '.spud_admin_photos_btn_remove', self.clickedPhotoRemoveFromLibrary)
     $('body').on('click', '.spud_admin_photo_ui_thumbs_selectable .spud_admin_photo_ui_thumb', self.selectedPhotoUiThumb);
     $('body').on('click', '#spud_admin_photo_album_action_library', self.clickedPhotoLibrary);
-    self.markSelectedPhotoUiThumbs();
 
     // html5 drag and drop file 
     var droparea = document.getElementById('spud_admin_photos_selected');
@@ -25,6 +22,11 @@ Spud.Admin.Photos = new function(){
     droparea.addEventListener('dragexit', self.stopDndPropagation, false);
     droparea.addEventListener('dragover', self.stopDndPropagation, false);
     droparea.addEventListener('drop', self.droppedFile, false);
+  };
+
+  this.submittedPhotoAlbumForm = function(){
+    var ids = $('#spud_admin_photos_selected .spud_admin_photo_ui_thumb').map(function(i, el){ return $(el).attr('rel') } );
+    $('#spud_photo_album_order').val(ids.toArray().join());
   };
 
   this.clickedPhotoRemoveFromLibrary = function(e){
@@ -60,15 +62,6 @@ Spud.Admin.Photos = new function(){
     else{
       $(this).addClass('spud_admin_photo_ui_thumb_selected');
     }
-  };
-
-  this.markSelectedPhotoUiThumbs = function(){
-    $('.spud_admin_photo_ui_thumb_selectable').each(function(){
-      var checkbox = $(this).find('input[type=checkbox]');
-      if(checkbox && checkbox.attr('checked')){
-        $(this).addClass('spud_admin_photo_ui_thumb_selected');
-      }
-    });
   };
 
   this.markPhotoAsDeleted = function(photo_id){
@@ -267,6 +260,7 @@ Spud.Admin.Photos = new function(){
   this.droppedFile = function(e){
     e.stopPropagation();
     e.preventDefault();
+    $('#spud_admin_photo_upload_queue').show();
     var files = e.dataTransfer.files;
     var i = 0;
     while(i < files.length){

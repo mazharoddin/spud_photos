@@ -20,7 +20,10 @@ class Spud::Admin::PhotoAlbumsController < Spud::Admin::ApplicationController
 
   def create
     @photo_album = SpudPhotoAlbum.new(params[:spud_photo_album])
-    flash[:notice] = 'SpudPhotoAlbum created successfully' if @photo_album.save
+    if @photo_album.save
+      set_photo_order
+      @photo_album.spud_photo_albums_photos = photo_albums_photos
+    end
     respond_with @photo_album, :location => spud_admin_photo_albums_path
   end
 
@@ -30,7 +33,10 @@ class Spud::Admin::PhotoAlbumsController < Spud::Admin::ApplicationController
 
   def update
     @photo_album.update_attributes(params[:spud_photo_album])
-    flash[:notice] = 'SpudPhotoAlbum updated successfully' if @photo_album.save
+    if @photo_album.save
+      set_photo_order
+      flash[:notice] = 'SpudPhotoAlbum updated successfully' 
+    end
     respond_with @photo_album, :location => spud_admin_photo_albums_path
   end
 
@@ -41,6 +47,17 @@ class Spud::Admin::PhotoAlbumsController < Spud::Admin::ApplicationController
 
   def get_album
     @photo_album = SpudPhotoAlbum.find(params[:id])
+  end
+
+  private
+
+  def set_photo_order
+    order_ids = params[:spud_photo_album_order].split(',')
+    @photo_album.spud_photo_albums_photos.each do |obj|
+      logger.debug "##### ID: #{obj.spud_photo_id.to_s}"
+      index = order_ids.index(obj.spud_photo_id.to_s)
+      obj.update_attribute(:order, index)
+    end
   end
 
 end

@@ -2,9 +2,10 @@ class SpudPhoto < ActiveRecord::Base
 
   attr_accessible :title, :caption, :photo
 
-  has_and_belongs_to_many :albums,
-    :class_name => 'SpudPhotoAlbum',
-    :join_table => 'spud_photo_albums_photos'
+  has_many :spud_photo_albums_photos
+  has_many :albums,
+    :through => :spud_photo_albums_photos,
+    :source => :spud_photo_album
 
   has_attached_file :photo, 
     :styles => lambda { |attachment| attachment.instance.dynamic_styles },

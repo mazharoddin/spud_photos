@@ -2,16 +2,21 @@ class SpudPhotoAlbum < ActiveRecord::Base
 
   attr_accessible :title, :url_name, :photos, :photo_ids
 
-  has_and_belongs_to_many :galleries,
-    :class_name => 'SpudPhotoGallery',
-    :join_table => 'spud_photo_galleries_albums'
-  has_and_belongs_to_many :photos,
-    :class_name => 'SpudPhoto',
-    :join_table => 'spud_photo_albums_photos',
-    :order => 'created_at'
+  has_many :spud_photo_albums_photos
+  has_many :photos,
+    :through => :spud_photo_albums_photos,
+    :source => :spud_photo,
+    :order => 'spud_photo_albums_photos.order asc'
+
+  has_many :spud_photo_galleries_albums
+  has_many :galleries,
+    :through => :spud_photo_galleries_albums,
+    :source => :spud_photo_gallery
+
   validates_presence_of :title, :url_name
   validates_uniqueness_of :title, :url_name
   before_validation :set_url_name
+  after_save :update_photo_order
 
   def top_photo_url(style)
     unless photos.empty?
@@ -31,6 +36,14 @@ class SpudPhotoAlbum < ActiveRecord::Base
 
   def set_url_name
     self.url_name = self.title.parameterize
+  end
+
+  def update_photo_order
+    # order = 0
+    # self.photos.each do |p|
+    #   p.update_attribute(:order, order)
+    #   order += 1
+    # end
   end
 
 end
