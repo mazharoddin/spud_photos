@@ -6,8 +6,6 @@ class Spud::Admin::PhotosController < Spud::Admin::ApplicationController
   respond_to :html, :json, :xml, :js
   layout 'spud/admin/spud_photos'
 
-  add_breadcrumb 'Photos', :spud_admin_photos_path
-
   def index
     @photos = SpudPhoto.all
     respond_with @photos
