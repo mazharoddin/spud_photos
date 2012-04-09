@@ -2,6 +2,7 @@ class Spud::Admin::PhotoGalleriesController < Spud::Admin::ApplicationController
 
   before_filter :get_gallery, :only => [:show, :edit, :update, :destroy]
   before_filter :get_albums, :only => [:new, :create, :edit, :update]
+  add_breadcrumb 'Photo Galleries', :spud_admin_photo_galleries_path
   respond_to :html, :json, :xml
   layout 'spud/admin/spud_photos'
 

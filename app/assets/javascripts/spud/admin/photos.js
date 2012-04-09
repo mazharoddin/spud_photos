@@ -10,23 +10,31 @@ Spud.Admin.Photos = new function(){
     $('.spud_admin_photo_ui_thumbs_sortable').sortable({
       connectWith:'.spud_admin_photo_ui_thumbs_sortable'
     });
-    $('body').on('submit', '#spud_admin_photo_album_form', self.submittedPhotoAlbumForm)
+    $('body').on('submit', '#spud_admin_photo_album_form', self.submittedPhotoAlbumForm);
+    $('body').on('submit', '#spud_admin_photo_gallery_form', self.submittedPhotoGalleryForm);
     $('body').on('submit', '#spud_admin_photo_form', self.submittedPhotoForm);
     $('body').on('click', '.spud_admin_photos_btn_remove', self.clickedPhotoRemoveFromLibrary)
     $('body').on('click', '.spud_admin_photo_ui_thumbs_selectable .spud_admin_photo_ui_thumb', self.selectedPhotoUiThumb);
     $('body').on('click', '#spud_admin_photo_album_action_library', self.clickedPhotoLibrary);
 
     // html5 drag and drop file 
-    var droparea = document.getElementById('spud_admin_photos_selected');
-    droparea.addEventListener('dragenter', self.stopDndPropagation, false);
-    droparea.addEventListener('dragexit', self.stopDndPropagation, false);
-    droparea.addEventListener('dragover', self.stopDndPropagation, false);
-    droparea.addEventListener('drop', self.droppedFile, false);
+    if(FormData){
+      $('#spud_admin_photo_upload_queue').show();
+      var droparea = document.getElementById('spud_admin_photo_upload_queue');
+      droparea.addEventListener('dragenter', self.stopDndPropagation, false);
+      droparea.addEventListener('dragexit', self.stopDndPropagation, false);
+      droparea.addEventListener('dragover', self.stopDndPropagation, false);
+      droparea.addEventListener('drop', self.droppedFile, false);
+    }
   };
 
-  this.submittedPhotoAlbumForm = function(){
+  this.submittedPhotoAlbumForm = function(e){
 
   };
+
+  this.submittedPhotoGalleryForm = function(e){
+    $('#spud_admin_photo_albums_available .spud_admin_photo_ui_thumb').remove();
+  }
 
   this.clickedPhotoRemoveFromLibrary = function(e){
     $(this).parents('.spud_admin_photo_ui_thumb').fadeOut(200, function(){

@@ -1,6 +1,6 @@
 <%= form_for @photo_gallery, :url => path, :html => {:class => 'form-horizontal', :id => 'spud_admin_photo_gallery_form'} do |f| %> 
   
-  <%=error_messages_for(f.object)%>
+  <%= error_messages_for(f.object) %>
   
   <fieldset>
     <legend>Gallery Info</legend>  
@@ -31,10 +31,9 @@
     </div>
   </fieldset>
 
-
   <div class="form-actions">
     <%= f.submit "Save Photo Gallery", :class=>"btn btn-primary form-btn", "data-loading-text" => "Saving..." %> 
-    or <%=link_to "cancel", request.referer, :class => "btn" %>
+    or <%= link_to "cancel", request.referer, :class => "btn" %>
   </div>
 
 <% end %>
