@@ -107,8 +107,8 @@ Spud.Admin.Photos = new function(){
       fd.append('spud_photo[caption]', form.find('#spud_photo_caption').val());
 
       // progress bar to send events to 
+      var file = form.find('#spud_photo_photo')[0].files[0];
       if(file){
-        var file = form.find('#spud_photo_photo')[0].files[0];
         var progressBar = self.progressBarForUpload(file.fileName);
         fd.append('spud_photo[photo]', file);
         form.find('.form-actions').before(progressBar);
