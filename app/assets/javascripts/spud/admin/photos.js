@@ -101,16 +101,21 @@ Spud.Admin.Photos = new function(){
       // create a FormData object and attach form values
       var fd = new FormData();
       var form = $(this);
-      var file = form.find('#spud_photo_photo')[0].files[0];
       fd.append('_method', form.find('[name=_method]').val());
       fd.append('authenticity_token', form.find('[name=authenticity_token]').val());
-      fd.append('spud_photo[photo]', file);
       fd.append('spud_photo[title]', form.find('#spud_photo_title').val());
       fd.append('spud_photo[caption]', form.find('#spud_photo_caption').val());
 
       // progress bar to send events to 
-      var progressBar = self.progressBarForUpload(file.fileName);
-      form.find('.form-actions').before(progressBar);
+      if(file){
+        var file = form.find('#spud_photo_photo')[0].files[0];
+        var progressBar = self.progressBarForUpload(file.fileName);
+        fd.append('spud_photo[photo]', file);
+        form.find('.form-actions').before(progressBar);
+      }
+      else{
+        var progressBar = self.progressBarForUpload('');
+      }
 
       // send FormData object as ajax request
       var xhr = new XMLHttpRequest();
