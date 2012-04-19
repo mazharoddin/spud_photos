@@ -66,7 +66,7 @@ Spud.Admin.Photos = new function(){
     }
     else{
       var target = $('#spud_admin_photos_selected, #spud_admin_photos');
-      target.prepend(html).fadeIn(200);
+      target.prepend(html);
     }
     $('#dialog').dialog('close');
   };
