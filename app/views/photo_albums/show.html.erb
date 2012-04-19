@@ -6,19 +6,12 @@
 
 <% end %>
 
-<h2>Photo Album: <%= @photo_album.title %></h2>
+<h2>Photo Album: <% @photo_album.title %></h2>
 
-<div id="spud_photo_showcase" style="width:400px;height:400px;position:relative;overflow:hidden"></div>
-
-<div id="spud_photo_album_photos">
+<div id="spud_photo_galleries">
   <% @photo_album.photos.each do |photo| %>
-    <div class="spud_photo_album_photo_thumbnail">
+    <div class="spud_photo_album_thumbnail">
       <%= link_to image_tag(photo.photo.url(:small), :alt => photo.caption, :title => photo.title), photo.photo.url(:large) %>
     </div>
   <% end %>
 </div>
-
-<%= javascript_include_tag 'spud_photos.js' %>
-<script type="text/javascript">
-  $(document).ready(spud_photos.init);
-</script>
