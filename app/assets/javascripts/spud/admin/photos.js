@@ -4,6 +4,7 @@ Spud.Admin = (typeof(Spud.Admin) == 'undefined') ? {} : Spud.Admin;
 Spud.Admin.Photos = new function(){
 
   var self = this;
+  var html5upload = false;
 
   this.init = function(){
     // event handlers
@@ -18,7 +19,8 @@ Spud.Admin.Photos = new function(){
     $('body').on('click', '#spud_admin_photo_album_action_library', self.clickedPhotoLibrary);
 
     // html5 drag and drop file 
-    if(FormData){
+    if(typeof(FormData) != 'undefined' && typeof(XMLHttpRequest) != 'undefined'){
+      html5upload = true;
       $('#spud_admin_photo_upload_queue').show();
       var droparea = document.getElementById('spud_admin_photo_upload_queue');
       droparea.addEventListener('dragenter', self.stopDndPropagation, false);
@@ -97,7 +99,7 @@ Spud.Admin.Photos = new function(){
   -------------------------------- */
 
   this.submittedPhotoForm = function(e){
-    if(FormData && XMLHttpRequest){
+    if(html5upload){
       // create a FormData object and attach form values
       var fd = new FormData();
       var form = $(this);
