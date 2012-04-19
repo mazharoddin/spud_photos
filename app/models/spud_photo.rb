@@ -19,7 +19,7 @@ class SpudPhoto < ActiveRecord::Base
   def dynamic_styles
     admin_styles = {
       :spud_admin_small => '125x125#',
-      :spud_admin_medium => '300x300'
+      :spud_admin_medium => '300x200'
     }
     return admin_styles.merge(Spud::Photos.config.photo_styles)
   end

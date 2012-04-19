@@ -14,19 +14,26 @@ Spud.Admin.Photos = new function(){
     $('body').on('submit', '#spud_admin_photo_album_form', self.submittedPhotoAlbumForm);
     $('body').on('submit', '#spud_admin_photo_gallery_form', self.submittedPhotoGalleryForm);
     $('body').on('submit', '#spud_admin_photo_form', self.submittedPhotoForm);
-    $('body').on('click', '.spud_admin_photos_btn_remove', self.clickedPhotoRemoveFromLibrary)
+    $('body').on('click', '.spud_admin_photos_btn_remove', self.clickedPhotoRemoveFromAlbum)
     $('body').on('click', '.spud_admin_photo_ui_thumbs_selectable .spud_admin_photo_ui_thumb', self.selectedPhotoUiThumb);
     $('body').on('click', '#spud_admin_photo_album_action_library', self.clickedPhotoLibrary);
+    $('body').on('click', '#spud_admin_photo_album_action_upload, .spud_admin_photo .spud_admin_photos_btn_edit', self.clickedPhotoAddOrEdit);
 
     // html5 drag and drop file 
-    if(typeof(FormData) != 'undefined' && typeof(XMLHttpRequest) != 'undefined'){
+    if(typeof(FormData) != 'undefined' && typeof(XMLHttpRequest) != 'undefined' && (droparea = document.getElementById('spud_admin_photo_upload_queue'))){
       html5upload = true;
       $('#spud_admin_photo_upload_queue').show();
-      var droparea = document.getElementById('spud_admin_photo_upload_queue');
       droparea.addEventListener('dragenter', self.stopDndPropagation, false);
       droparea.addEventListener('dragexit', self.stopDndPropagation, false);
       droparea.addEventListener('dragover', self.stopDndPropagation, false);
       droparea.addEventListener('drop', self.droppedFile, false);
+
+      // prevent accidental drops outside the queue
+      var body = document.getElementsByTagName("body")[0];
+      body.addEventListener('dragenter', self.stopDndPropagation, false);
+      body.addEventListener('dragexit', self.stopDndPropagation, false);
+      body.addEventListener('dragover', self.stopDndPropagation, false);
+      body.addEventListener('drop', self.stopDndPropagation, false);
     }
   };
 
@@ -38,10 +45,11 @@ Spud.Admin.Photos = new function(){
     $('#spud_admin_photo_albums_available .spud_admin_photo_ui_thumb').remove();
   }
 
-  this.clickedPhotoRemoveFromLibrary = function(e){
+  this.clickedPhotoRemoveFromAlbum = function(e){
     $(this).parents('.spud_admin_photo_ui_thumb').fadeOut(200, function(){
       $(this).remove();
     });
+    return false;
   };
 
   /* Handle file uploads passed via iframe (legacy support)
@@ -54,10 +62,10 @@ Spud.Admin.Photos = new function(){
   this.photoLegacyUploadComplete = function(id, html){
     var element = $('#spud_admin_photo_' + id);
     if(element.length > 0){
-      element.replaceWith(htmlhtml);
+      element.replaceWith(html);
     }
     else{
-      var target = $('#spud_admin_photos_selected .spud_admin_photo_ui_thumbs, #spud_admin_photos');
+      var target = $('#spud_admin_photos_selected, #spud_admin_photos');
       target.prepend(html).fadeIn(200);
     }
     $('#dialog').dialog('close');
@@ -99,6 +107,10 @@ Spud.Admin.Photos = new function(){
   -------------------------------- */
 
   this.submittedPhotoForm = function(e){
+    // disable submit button
+    var submit = $(this).find('input[type=submit]');
+    submit.attr('disabled', 'disabled').val(submit.attr('data-loading-text'));
+
     if(html5upload){
       // create a FormData object and attach form values
       var fd = new FormData();
@@ -187,6 +199,33 @@ Spud.Admin.Photos = new function(){
   this.onPhotoUploadCancel = function(e, progressBar){
     progressBar.find('.spud_admin_photo_progress_status').text('Done!');
     progressBar.find('.progress').addClass('progress-danger');
+  };
+
+  /*
+  * Photo Upload/Edit Form
+  ------------------------------- */  
+  this.clickedPhotoAddOrEdit = function(e){
+    var url = this.href;
+    $.ajax({
+      url:url,
+      success:self.photoUploadFormLoaded
+    });
+    return false;
+  };
+
+  this.photoUploadFormLoaded = function(html){
+    var dialog = $("#dialog");
+    if(dialog.length == 0){
+      dialog = $('<div id="dialog" style="display:hidden;"></div>').appendTo('body');
+    }
+    dialog.html(html);
+    dialog.dialog({
+      width: 500,
+      modal: true,
+      height: 'auto',
+      title: 'Upload Photo',
+      buttons: {}
+    });
   };
 
   /*
