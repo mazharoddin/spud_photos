@@ -30,7 +30,7 @@ Spud Photos accepts the following configuration options:
 	    :large => '400x400#',
 	    :huge => '600x600'
 	  }
-	  self.paperclip_storage = :filesystem #use :s3 to use s3 storage (aws gem required)
+	  config.paperclip_storage = :filesystem #use :s3 to use s3 storage (aws gem required)
     	  config.s3_credentials = "#{Rails.root}/config/s3.yml"
     	  config.storage_path = ":rails_root/public/system/spud_photos/:id/:style/:basename.:extension"
     	  config.storage_url = "/system/spud_photos/:id/:style/:basename.:extension"
