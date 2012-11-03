@@ -9,6 +9,7 @@ class SpudPhoto < ActiveRecord::Base
 
   has_attached_file :photo, 
     :styles => lambda { |attachment| attachment.instance.dynamic_styles },
+    :convert_options => Spud::Photos.config.convert_options,
     :storage => Spud::Photos.paperclip_storage,
     :s3_credentials => Spud::Photos.s3_credentials,
     :url => Spud::Photos.storage_url,
