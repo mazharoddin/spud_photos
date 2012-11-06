@@ -5,6 +5,7 @@ class Spud::Admin::PhotosController < Spud::Admin::ApplicationController
   before_filter :get_photo, :only => [:show, :edit, :update, :destroy]
   respond_to :html, :json, :xml, :js
   layout false
+  cache_sweeper :spud_photo_sweeper, :only => [:create, :update, :destroy]
 
   def index
     @photos = SpudPhoto.all

@@ -4,6 +4,7 @@ class Spud::Admin::PhotoAlbumsController < Spud::Admin::ApplicationController
   add_breadcrumb 'Photo Albums', :spud_admin_photo_albums_path
   respond_to :html, :json, :xml
   layout 'spud/admin/spud_photos'
+  cache_sweeper :spud_photo_sweeper, :only => [:create, :update, :destroy]
 
   def index
     @photo_albums = SpudPhotoAlbum.all
