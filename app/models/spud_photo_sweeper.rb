@@ -22,6 +22,13 @@ private
       if File.directory?(cache_path)
         FileUtils.rm_rf(cache_path)
       end
+      if !Spud::Photos.config.page_caches_to_sweep.blank?
+        puts Spud::Photos.config.page_caches_to_sweep
+        Spud::Photos.config.page_caches_to_sweep.each do |route|
+          puts "sweeping #{route}"
+          expire_page(route)
+        end
+      end
     end
   end
 

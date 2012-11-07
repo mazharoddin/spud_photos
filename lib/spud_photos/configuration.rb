@@ -1,7 +1,7 @@
 module Spud
   module Photos
     include ActiveSupport::Configurable
-    config_accessor :photo_styles, :convert_options, :galleries_enabled, :base_layout, :base_path,:s3_credentials,:storage_path,:storage_url,:paperclip_storage, :enable_full_page_caching
+    config_accessor :photo_styles, :convert_options, :galleries_enabled, :base_layout, :base_path,:s3_credentials,:storage_path,:storage_url,:paperclip_storage, :enable_full_page_caching, :page_caches_to_sweep
     self.photo_styles = {
       :small => '50x50#',
       :medium => '200x200#',
@@ -16,5 +16,6 @@ module Spud
     self.storage_path = ":rails_root/public/system/spud_photos/:id/:style/:basename.:extension"
     self.storage_url = "/system/spud_photos/:id/:style/:basename.:extension"
     self.enable_full_page_caching = false
+    self.page_caches_to_sweep = []
   end
 end
