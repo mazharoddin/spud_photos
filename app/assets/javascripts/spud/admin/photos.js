@@ -14,12 +14,14 @@ Spud.Admin.Photos = new function(){
     $('body').on('submit', '#spud_admin_photo_album_form', self.submittedPhotoAlbumForm);
     $('body').on('submit', '#spud_admin_photo_gallery_form', self.submittedPhotoGalleryForm);
     $('body').on('submit', '#spud_admin_photo_form', self.submittedPhotoForm);
-    $('body').on('click', '.spud_admin_photos_btn_remove', self.clickedPhotoRemoveFromAlbum)
+    $('body').on('click', '.spud_admin_photos_btn_remove', self.clickedPhotoRemoveFromAlbum);
     $('body').on('click', '.spud_admin_photo_ui_thumbs_selectable .spud_admin_photo_ui_thumb', self.selectedPhotoUiThumb);
     $('body').on('click', '#spud_admin_photo_album_action_library', self.clickedPhotoLibrary);
     $('body').on('click', '#spud_admin_photo_album_action_upload, .spud_admin_photo .spud_admin_photos_btn_edit', self.clickedPhotoAddOrEdit);
+    $('body').on('click', '.spud_admin_photo_library_add_selected', self.addSelectedPhotosFromLibrary);
+    $('body').on('click', '.spud_admin_photo_library_delete_selected', self.deleteSelectedPhotosFromLibrary);
 
-    // html5 drag and drop file 
+    // html5 drag and drop file
     if(typeof(FormData) != 'undefined' && typeof(XMLHttpRequest) != 'undefined' && (droparea = document.getElementById('spud_admin_photo_upload_queue'))){
       html5upload = true;
       $('#spud_admin_photo_upload_queue').show();
@@ -43,7 +45,7 @@ Spud.Admin.Photos = new function(){
 
   this.submittedPhotoGalleryForm = function(e){
     $('#spud_admin_photo_albums_available .spud_admin_photo_ui_thumb').remove();
-  }
+  };
 
   this.clickedPhotoRemoveFromAlbum = function(e){
     $(this).parents('.spud_admin_photo_ui_thumb').fadeOut(200, function(){
@@ -68,7 +70,7 @@ Spud.Admin.Photos = new function(){
       var target = $('#spud_admin_photos_selected, #spud_admin_photos');
       target.prepend(html);
     }
-    $('#dialog').dialog('close');
+    hideModalDialog();
   };
 
   this.selectedPhotoUiThumb = function(e){
@@ -102,14 +104,15 @@ Spud.Admin.Photos = new function(){
     });
   };
 
-  /* 
+  /*
   * Single-Photo Form Upload
   -------------------------------- */
 
   this.submittedPhotoForm = function(e){
     // disable submit button
-    var submit = $(this).find('input[type=submit]');
-    submit.attr('disabled', 'disabled').val(submit.attr('data-loading-text'));
+    // not working in updated bootstrap!
+    // var submit = $(this).find('input[type=submit]');
+    // submit.attr('disabled', 'disabled').val(submit.attr('data-loading-text'));
 
     if(html5upload){
       // create a FormData object and attach form values
@@ -120,20 +123,21 @@ Spud.Admin.Photos = new function(){
       fd.append('spud_photo[title]', form.find('#spud_photo_title').val());
       fd.append('spud_photo[caption]', form.find('#spud_photo_caption').val());
 
-      // progress bar to send events to 
+      // progress bar to send events to
+      var progressBar;
       var file = form.find('#spud_photo_photo')[0].files[0];
       if(file){
-        var progressBar = self.progressBarForUpload(file.fileName);
+        progressBar = self.progressBarForUpload(file.fileName);
         fd.append('spud_photo[photo]', file);
-        form.find('.form-actions').before(progressBar);
+        form.append(progressBar);
       }
       else{
-        var progressBar = self.progressBarForUpload('');
+        progressBar = self.progressBarForUpload('');
       }
 
       // send FormData object as ajax request
       var xhr = new XMLHttpRequest();
-      xhr.upload.addEventListener('progress', function(e){ self.onPhotoUploadProgress(e, progressBar) }, false);
+      xhr.upload.addEventListener('progress', function(e){ self.onPhotoUploadProgress(e, progressBar); }, false);
       xhr.addEventListener('load', function(e){ self.onPhotoUploadComplete(e, progressBar); }, false);
       xhr.addEventListener('error', function(e){ self.onPhotoUploadFailure(e, progressBar); }, false);
       xhr.addEventListener('abort', function(e){ self.onPhotoUploadCancel(e, progressBar); }, false);
@@ -144,7 +148,7 @@ Spud.Admin.Photos = new function(){
     }
   };
 
-  /* 
+  /*
   * Upload Progress Monitoring
   -------------------------------- */
 
@@ -184,16 +188,12 @@ Spud.Admin.Photos = new function(){
         var target = $('#spud_admin_photos_selected, #spud_admin_photos');
         target.prepend(photo.html).fadeIn(200);
       }
-      $('#dialog').dialog('close');
+      hideModalDialog();
     }
     // validation error
     else{
-      $('#dialog').html(photo.html);
+      $("#modal_window .modal-body").html(photo.html);
     }
-  };
-
-  this.onPhotoUploadCancel = function(e, progressBar){
-
   };
 
   this.onPhotoUploadCancel = function(e, progressBar){
@@ -203,7 +203,7 @@ Spud.Admin.Photos = new function(){
 
   /*
   * Photo Upload/Edit Form
-  ------------------------------- */  
+  ------------------------------- */
   this.clickedPhotoAddOrEdit = function(e){
     var url = this.href;
     $.ajax({
@@ -214,17 +214,9 @@ Spud.Admin.Photos = new function(){
   };
 
   this.photoUploadFormLoaded = function(html){
-    var dialog = $("#dialog");
-    if(dialog.length == 0){
-      dialog = $('<div id="dialog" style="display:hidden;"></div>').appendTo('body');
-    }
-    dialog.html(html);
-    dialog.dialog({
-      width: 500,
-      modal: true,
-      height: 'auto',
+    displayModalDialogWithOptions({
       title: 'Upload Photo',
-      buttons: {}
+      html: html
     });
   };
 
@@ -242,11 +234,7 @@ Spud.Admin.Photos = new function(){
   };
 
   this.photoLibraryLoaded = function(html){
-    var dialog = $("#dialog");
-    if(dialog.length == 0){
-      dialog = $('<div id="dialog" style="display:hidden;"></div>').appendTo('body');
-    }
-    dialog.html(html);
+    var dialog = $('#modal_window');
     $('#spud_admin_photos_selected .spud_admin_photo_ui_thumb').each(function(){
       var id = $(this).attr('id');
       var dupe = dialog.find('#'+id);
@@ -254,14 +242,12 @@ Spud.Admin.Photos = new function(){
         dupe.remove();
       }
     });
-    dialog.dialog({
-      width: 675,
-      modal: true,
-      height: 450,
+    displayModalDialogWithOptions({
       title: 'My Photo Library',
-      buttons: {
-        'Add Selected': self.addSelectedPhotosFromLibrary,
-        'Delete Selected': self.deleteSelectedPhotosFromLibrary
+      html: html,
+      buttons:{
+        'spud_admin_photo_library_add_selected btn-primary': 'Add Selected',
+        'spud_admin_photo_library_delete_selected btn-danger': 'Delete Selected'
       }
     });
   };
@@ -272,11 +258,11 @@ Spud.Admin.Photos = new function(){
       .prependTo('#spud_admin_photos_selected')
       .hide()
       .fadeIn(200);
-    $(this).dialog('close');
+    hideModalDialog();
   };
 
   this.deleteSelectedPhotosFromLibrary = function(e){
-    var ids = $.map($('.spud_admin_photo_ui_thumb_selected'), function(val, i){ 
+    var ids = $.map($('.spud_admin_photo_ui_thumb_selected'), function(val, i){
       return $(val).attr('rel');
     });
     $.ajax({
@@ -289,10 +275,10 @@ Spud.Admin.Photos = new function(){
         });
       },
       error: function(jqXHR, textStatus, errorThrown){
-        console.log('An error occurred:')
+        console.log('An error occurred:');
         console.log(arguments);
       }
-    })
+    });
 
   };
 
@@ -307,7 +293,7 @@ Spud.Admin.Photos = new function(){
   this.stopDndPropagation = function(e){
     e.stopPropagation();
     e.preventDefault();
-  }
+  };
 
   // add files to queue. starts queue if not started already
   this.droppedFile = function(e){
@@ -324,7 +310,7 @@ Spud.Admin.Photos = new function(){
     if(!this.fileQueueStarted){
       self.uploadNextPhoto();
       if(self.fileQueue.length > 0){
-        self.uploadNextPhoto();  
+        self.uploadNextPhoto();
       }
     }
   };
@@ -334,7 +320,7 @@ Spud.Admin.Photos = new function(){
   };
 
   this.uploadNextPhoto = function(){
-    if(self.fileQueue.length == 0){
+    if(self.fileQueue.length === 0){
       self.fileQueueStarted = false;
       return;
     }
@@ -352,7 +338,7 @@ Spud.Admin.Photos = new function(){
     // send formdata as xhr
     var xhr = new XMLHttpRequest();
     xhr.upload.addEventListener('progress', function(e){ self.onPhotoUploadProgress(e, progressBar); }, false);
-    xhr.addEventListener('load', function(e){ self.onQueuedPhotoUploadComplete(e, progressBar) }, false);
+    xhr.addEventListener('load', function(e){ self.onQueuedPhotoUploadComplete(e, progressBar); }, false);
     xhr.addEventListener('error', function(e){ self.onPhotoUploadFailure(e, progressBar); }, false);
     xhr.addEventListener('abort', function(e){ self.onPhotoUploadCancel(e, progressBar); }, false);
     xhr.open('POST', '/spud/admin/photos');

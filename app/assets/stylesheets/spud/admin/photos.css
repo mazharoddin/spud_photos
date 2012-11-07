@@ -63,6 +63,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin: 0;
 }
 .spud_admin_photo_ui_thumb_controls{
   position: absolute;
