@@ -57,7 +57,7 @@ class Spud::Admin::PhotoAlbumsController < Spud::Admin::ApplicationController
     @photo_album.spud_photo_albums_photos.each do |obj|
       logger.debug "##### ID: #{obj.spud_photo_id.to_s}"
       index = order_ids.index(obj.spud_photo_id.to_s)
-      obj.update_attribute(:order, index)
+      obj.update_attribute(:sort_order, index)
     end
   end
 
