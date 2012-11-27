@@ -6,7 +6,7 @@ class SpudPhotoAlbum < ActiveRecord::Base
   has_many :photos,
     :through => :spud_photo_albums_photos,
     :source => :spud_photo,
-    :order => 'spud_photo_albums_photos.order asc'
+    :order => '"spud_photo_albums_photos"."order" asc'
 
   has_many :spud_photo_galleries_albums
   has_many :galleries,
