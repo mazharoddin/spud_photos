@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    spud_photos (0.9.0)
+    spud_photos (0.9.0.1)
       paperclip
       rails (~> 3.2.2)
       spud_core (>= 0.9.0, < 1.0.0)
