@@ -2,7 +2,7 @@ class SpudPhoto < ActiveRecord::Base
 
   attr_accessible :title, :caption, :photo
 
-  has_many :spud_photo_albums_photos
+  has_many :spud_photo_albums_photos, :dependent => :destroy
   has_many :albums,
     :through => :spud_photo_albums_photos,
     :source => :spud_photo_album
