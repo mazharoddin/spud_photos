@@ -16,10 +16,6 @@ class PhotoAlbumsController < ApplicationController
   def index
     if @photo_gallery
       @photo_albums = @photo_gallery.albums.order('created_at desc')
-      if request.format.html? && @photo_albums.length == 1
-        redirect_to photo_gallery_photo_album_path(@photo_gallery.url_name, @photo_gallery.albums.first.url_name)
-        return
-      end
     else
       @photo_albums = SpudPhotoAlbum.order('created_at desc')
     end

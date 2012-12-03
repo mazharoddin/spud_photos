@@ -10,7 +10,7 @@ class PhotoGalleriesController < ApplicationController
   end
 
   def index
-    @photo_galleries = SpudPhotoGallery.order('created_at desc')
+    @photo_galleries = SpudPhotoGallery.order('created_at desc').includes(:albums)
     respond_with @photo_galleries
   end
 
