@@ -9,7 +9,7 @@ class CreateSpudPhotoGalleries < ActiveRecord::Migration
       t.integer :spud_photo_gallery_id
       t.integer :spud_photo_album_id
     end
-    add_index :spud_photo_galleries, :url_name
-    add_index :spud_photo_galleries_albums, :spud_photo_gallery_id
+    add_index :spud_photo_galleries, :url_name, :name => "idx_gallery_url_name"
+    add_index :spud_photo_galleries_albums, :spud_photo_gallery_id, :name => "idx_gallery_id"
   end
 end

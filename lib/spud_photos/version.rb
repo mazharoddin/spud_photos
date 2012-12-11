@@ -1,5 +1,5 @@
 module Spud
 	module Photos
-	  VERSION = "0.9.0.2"
+	  VERSION = "0.9.1"
 	end
 end
