@@ -127,7 +127,7 @@ Spud.Admin.Photos = new function(){
       var progressBar;
       var file = form.find('#spud_photo_photo')[0].files[0];
       if(file){
-        progressBar = self.progressBarForUpload(file.fileName);
+        progressBar = self.progressBarForUpload(file.name);
         fd.append('spud_photo[photo]', file);
         form.append(progressBar);
       }
@@ -153,16 +153,18 @@ Spud.Admin.Photos = new function(){
   -------------------------------- */
 
   this.progressBarForUpload = function(fileName){
-    return $('\
-      <div class="spud_admin_photo_progress" \
-        <h6> \
-          <span class="spud_admin_photo_progress_filename">'+fileName+'</span>: \
-          <span class="spud_admin_photo_progress_status">Uploading</span> \
-        </h6> \
-        <div class="progress progress-striped active"> \
-          <div class="bar" style="width: 0;"></div> \
-        </div> \
-      </div>');
+    var html = [
+      '<div class="spud_admin_photo_progress">',
+        '<h6>',
+          '<span class="spud_admin_photo_progress_filename">'+fileName+'</span>: ',
+          '<span class="spud_admin_photo_progress_status">Uploading</span>',
+        '</h6>',
+        '<div class="progress progress-striped active">',
+          '<div class="bar" style="width: 0;"></div>',
+        '</div>',
+      '</div>'
+    ].join('');
+    return $(html);
   };
 
   this.onPhotoUploadProgress = function(e, progressBar){
@@ -332,7 +334,7 @@ Spud.Admin.Photos = new function(){
     fd.append('spud_photo[photo]', file);
 
     // create a progress bar
-    var progressBar = self.progressBarForUpload(file.fileName);
+    var progressBar = self.progressBarForUpload(file.name);
     $('#spud_admin_photo_upload_queue_bars').prepend(progressBar);
 
     // send formdata as xhr
