@@ -18,7 +18,7 @@ Spud Photos is an engine for creating and managing photo galleries, designed for
 
 ## Configuration
 
-Spud Photos accepts the following configuration options:
+Spud Photos accepts the following configuration options. Place them in `application.rb` or in an initializer.
 
 	Spud::Photos.configure do |config|
 	  config.base_layout = 'application'
