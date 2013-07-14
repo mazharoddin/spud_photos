@@ -34,6 +34,7 @@ Spud Photos accepts the following configuration options. Place them in `applicat
     	  config.s3_credentials = "#{Rails.root}/config/s3.yml"
     	  config.storage_path = ":rails_root/public/system/spud_photos/:id/:style/:basename.:extension"
     	  config.storage_url = "/system/spud_photos/:id/:style/:basename.:extension"
+    	  config.s3_host_name = "s3.amazonaws.com" #Defaults to us east zone, change for other regions.
 	end
 
 The `photo_styles` option will be passed to [Paperclip][2], so any valid paperclip styles can be added here.

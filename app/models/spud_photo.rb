@@ -12,6 +12,7 @@ class SpudPhoto < ActiveRecord::Base
     :convert_options => Spud::Photos.config.convert_options,
     :storage => Spud::Photos.paperclip_storage,
     :s3_credentials => Spud::Photos.s3_credentials,
+    :s3_host_name => Spud::Photos.s3_host_name,
     :url => Spud::Photos.storage_url,
     :path => Spud::Photos.storage_path
 
