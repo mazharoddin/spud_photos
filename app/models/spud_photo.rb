@@ -18,6 +18,10 @@ class SpudPhoto < ActiveRecord::Base
 
   validates_attachment_presence :photo
 
+  validates_attachment :photo, 
+    :presence => true, 
+    :content_type => {:content_type => ['image/jpg', 'image/jpeg', 'image/png']}
+
   def dynamic_styles
     compress = '-strip -density 72x72'
     admin_styles = {
