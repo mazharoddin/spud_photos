@@ -1,3 +1,14 @@
+# NOTICE
+
+This project is not actively maintained. I will do my best to provide fixes in so far as supporting existing users on Rails 3.x. For Rails 4 and beyond, please either:
+
+- Check out [Twice Bakes Photos](https://bitbucket.org/westlakedesign/tb_photos), a fork off the Spud platform, or
+- Consider [forking this project](https://github.com/gregawoods/spud_photos/fork) and making a pull request
+
+Thanks!
+
+---
+
 # Spud Photos
 
 Spud Photos is an engine for creating and managing photo galleries, designed for use with [Spud][1].
